@@ -2,6 +2,7 @@ import numpy as np
 import PIL.ImageDraw as ImageDraw
 import PIL.Image as Image
 import caustics
+import random
 
 def area(p,q):
     return abs(p[1]*q[0] - p[0]*q[1])
@@ -44,8 +45,16 @@ def projection(px, py, scale=10, mode='poly'):
 
 class Caustics_PIL(caustics.Caustics):
     def animate(self, zoom=10):
-        for loop in range(2000):
+        for loop in range(500):
             self.progress(10)
+            # decay
+            self.v *= 0.999
+            if loop % 100 == 1:
+                H, W = self.z.shape
+                # random drop
+                x = random.randint(4,W-2-4)
+                y = random.randint(4,H-2-4)
+                self.gauss(x,y,4)
             px, py = self.photons(depth=4)
             # image = projection(px, py, scale=10, mode='dot')
             image = projection(px, py, scale=zoom, mode='poly')

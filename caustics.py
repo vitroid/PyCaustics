@@ -10,9 +10,9 @@ class Caustics():
 
         self.z = np.zeros([self.H,self.W])
         self.v = np.zeros([self.H,self.W])
-        self.gauss(5*resol,5*resol,5*resol)
-        self.gauss(55*resol,25*resol,5*resol)
-        self.gauss(27*resol,30*resol,5*resol)
+        # self.gauss(5*resol,5*resol,5*resol)
+        # self.gauss(55*resol,25*resol,5*resol)
+        # self.gauss(27*resol,30*resol,5*resol)
         self.mass = 4.0 / resol**2
         self.k    = 4.0 # / resol**2
         self.dt   = 0.05
@@ -23,7 +23,7 @@ class Caustics():
         """
         for x in range(-R,R+1):
             for y in range(-R,R+1):
-                self.z[cy+y,cx+x] += 10*exp(-(x**2+y**2)/(R*2))
+                self.v[cy+y,cx+x] += 10*exp(-(x**2+y**2)/(R*2))
 
     def photons(self, depth=1):
         """

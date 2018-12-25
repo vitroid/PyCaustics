@@ -2,7 +2,7 @@ import caustics
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-
+import random
 
 class Caustics_pyplot(caustics.Caustics):
     def plot(self, data):
@@ -14,6 +14,13 @@ class Caustics_pyplot(caustics.Caustics):
         #    N = 0
         scale = (W-2)/64
         self.progress(N)
+        # decay
+        self.v *= 0.999
+        if frame % 100 == 1:
+            # random drop
+            x = random.randint(4,W-2-4)
+            y = random.randint(4,H-2-4)
+            self.gauss(x,y,4)
         plt.cla()
         self.ax.set_facecolor((0.0, 120/255, 200/255))
         px, py = self.photons(depth=scale**2)
