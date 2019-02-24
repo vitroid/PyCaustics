@@ -10,6 +10,11 @@ class Caustics():
 
         self.z = np.zeros([self.H,self.W])
         self.v = np.zeros([self.H,self.W])
+        self.dx = np.zeros_like(self.z)
+        self.dy = np.zeros_like(self.z)
+        x = np.arange(0, self.W)
+        y = np.arange(0, self.H)
+        self.xv, self.yv = np.meshgrid(x, y)
         # self.gauss(5*resol,5*resol,5*resol)
         # self.gauss(55*resol,25*resol,5*resol)
         # self.gauss(27*resol,30*resol,5*resol)
@@ -29,17 +34,10 @@ class Caustics():
         """
         Determine the destinations of the photons from the surface gradient.
         """
-        dx  = np.zeros_like(self.z)
-        dy  = np.zeros_like(self.z)
-        for w in range(self.W-1):
-            for h in range(self.H-1):
-                dx[h,w]  = self.z[h,w+1] - self.z[h,w]
-                dy[h,w]  = self.z[h+1,w] - self.z[h,w]
-        x = np.arange(0, self.W)
-        y = np.arange(0, self.H)
-        xv, yv = np.meshgrid(x, y)
-        px = xv - dx*depth
-        py = yv - dy*depth
+        self.dx[:,:self.W-1] = self.z[:,1:] - self.z[:,:self.W-1]
+        self.dy[:self.H-1,:] = self.z[1:,:] - self.z[:self.H-1,:]
+        px = self.xv - self.dx*depth
+        py = self.yv - self.dy*depth
         return px,py
 
 

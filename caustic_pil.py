@@ -59,7 +59,7 @@ class Caustics_PIL(caustics.Caustics):
             # image = projection(px, py, scale=10, mode='dot')
             image = projection(px, py, scale=zoom, mode='poly')
             image.save('{0:04d}.png'.format(loop))
-
+            print(loop)
 
 
 
